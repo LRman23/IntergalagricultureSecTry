@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThirdPersonCam : MonoBehaviour
+public class ThirdPerson : MonoBehaviour
 {
     [Header("References")]
     public Transform orientation;
@@ -15,6 +15,7 @@ public class ThirdPersonCam : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -23,14 +24,12 @@ public class ThirdPersonCam : MonoBehaviour
         Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
         orientation.forward = viewDir.normalized;
 
-        //rotate player object
-        float horInput = Input.GetAxis("Horizontal");
-        float vertInput = Input.GetAxis("Vertical");
-        Vector3 inputDir = orientation.forward * vertInput + orientation.right * horInput;
+        // rotate player object
+        float horizInput = Input.GetAxis("Horizontal");
+        float vertiInput = Input.GetAxis("Vertical");
+        Vector3 inputDir = orientation.forward * vertiInput + orientation.right * horizInput;
 
-        if(inputDir != Vector3.zero)
-        {
+        if (inputDir != Vector3.zero)
             playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
-        }
     }
 }
